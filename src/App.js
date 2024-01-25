@@ -1,23 +1,14 @@
-import logo from './logo.svg';
 import './App.css';
+import HeartCarePage from './pages/heart-care-page/HeartCarePage';
+import SignUpPage from './pages/sign-up-page/SignUpPage';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        明治安田生命
       </header>
+      <HeartCarePage/>
     </div>
   );
 }
