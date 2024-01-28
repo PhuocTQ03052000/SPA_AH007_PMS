@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import "./heartcare.css" 
+import HeartRate from "../../components/api/HeartRate";
 
 const HeartCarePage = () => {
     const formik = useFormik({
@@ -41,8 +42,17 @@ const HeartCarePage = () => {
                 {formik.errors.heartrate && (
                     <p className="errorMsg">{formik.errors.heartrate}</p>
                 )}
-                <label className="heart-info"> あなたの<br/>目標心拍数</label>
-                <label className="heart-info"> 目標達成 </label>
+                <label className="heart-info"> 
+                    あなたの<br/>目標心拍数 
+                    <HeartRate/>
+                </label>
+
+                <label className="heart-info">
+                     目標達成
+                     <div>
+                        {formik.values.heartrate === <heartRate/>}
+                     </div>
+                </label>
                 <button className="btn-submit" type="submit">運動完了</button>
             </form>
         </section>
