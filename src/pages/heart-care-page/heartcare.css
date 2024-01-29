@@ -1,37 +1,41 @@
-.infoform {
-  display: block;
-  gap: 0.5rem;
-  flex-direction: column;
+.info-form {
+  width: 100%;
   margin-top: 1.5rem;
   font-weight: 500;
   color: #4b555b;
 }
 
-
-.input-heart-rate{
-  display: block;
+.input-heart-rate {
+  display: flex;
+  height: 60px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: start;
 }
 
 .input-heart-rate label{
-  font-size: 2rem;
+  width: 30%;
+  display: inline-block;
+  font-size: 16px;
 }
 
-.input-heart-rate input {
-  max-width: 50%;
+.msg-area {
+  width: 70%;
+}
+
+.msg-area input {
   border: 2px solid #98905c;
   padding: 0.25rem;
-  float: right;
-  text-align: right;
-  line-height: 45px;
-  font-size: 2rem;
 }
 
-.input-heart-rate input::placeholder {
+.msg-area input::placeholder {
   text-align: right;
   padding-right: 1rem;
 }
 
-.heart-info{
+ .heart-rate-standard,
+ .heart-rate-level{
+  margin-top: 1rem;
   border: 2px solid #98905c;
   border-style: dotted solid double dashed;
   background-color: #e6faf6;
@@ -50,11 +54,42 @@
   border: 2px solid #98905c;
   font-size: 2rem;
   border-radius: 5px;
+  margin-top: 1rem;
 }
-  
-.errorMsg {
+
+.btn-submit:disabled {
+  background-color: #e6faf6;
+  opacity: 0.5;
+  cursor: default;
+}
+
+.msg-area {
+  display: flex;
+  flex-direction: column;
+  min-height: 30px;
+}
+
+.error-msg {
   max-width: 100%;
   font-size: 1rem;
   color:rgb(248, 106, 106);
-  text-align: right;
+}
+
+:root {
+  --red-color: #FF0000;
+  --green-color: green;
+  --default-color: #000000;
+}
+
+.heart-rate-icon {
+  padding-left: 20px;
+  color: var(default-color); /* Mặc định màu đỏ */
+}
+
+.heart-rate-icon[data-value="O"] {
+  color: var(--blue-color); /* Nếu giá trị là 'O' thì hiển thị màu xanh */
+}
+
+.heart-rate-icon[data-value="X"] {
+  color: var(--red-color); /* Nếu giá trị là 'O' thì hiển thị màu xanh */
 }

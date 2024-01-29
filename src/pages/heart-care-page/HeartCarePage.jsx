@@ -1,62 +1,113 @@
-import React, { useState } from "react";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import "./heartcare.css" 
-import HeartRate from "../../components/api/HeartRate";
+import React, { useState, useEffect } from 'react'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+import './heartcare.css'
+import { getHeartRateOfUser } from '../../api/heart-rate/getHeartRateOfUser'
+
+const DEFAULT_USER_INFRO = {
+    id: '',
+    title: '',
+    description: '',
+    price: '',
+    discountPercentage: '',
+    rating: '',
+    stock: '',
+    brand: '',
+    category: '',
+    thumbnail: '...',
+    images: ['...', '...', '...'],
+}
 
 const HeartCarePage = () => {
+    const [user, setUser] = useState(DEFAULT_USER_INFRO)
+    const [isShowSubmitBtn, setIsShowSubmitBtn] = useState("-")
+
+    useEffect(() => {
+        async function getProduct() {
+            const response = await getHeartRateOfUser(1)
+            const users = await response.json()
+            setUser(users)
+        }
+        getProduct()
+    }, [])
+
     const formik = useFormik({
-        initialValues:{
-            heartrate: "",
+        initialValues: {
+            heartrate: '',
         },
         validationSchema: Yup.object({
             heartrate: Yup.string()
-            .matches(/^[0-9]{1,3}$/, 'Must be an integer with 1 to 3 digits')
-            .test('is-positive', 'Must be a positive integer', value => {
-                if (value) {
-                  return parseInt(value, 10) >= 0;
-                }
-                return true;
-             })
-            .required('Heart rate is required'),
+                .min(1)
+                .max(3)
+                .test('is-positive', 'Must be a positive integer', (value) => {
+                    console.log("rate", user.stock);
+                    console.log("value: " + value);
+                    if (value < 0) {
+                        return false;
+                    }
+                    if (value >= user.stock) {
+                        setIsShowSubmitBtn("O");
+                    } else if(value < user.stock){
+                        setIsShowSubmitBtn("X");
+                    } else {
+                        setIsShowSubmitBtn("-");
+                    }
+
+                    return true
+                })
+                .required('Heart rate is required'),
         }),
-        onSubmit: (values) =>{
-            window.alert("Form submited")
-        }
-    });
+        onSubmit: (values) => {
+            window.alert('Form submited')
+        },
+    })
 
     return (
         <section>
-            <form className="infoform" onSubmit={formik.handleSubmit}>
+            <form className="info-form" onSubmit={formik.handleSubmit}>
                 <div className="input-heart-rate">
                     <label> 心拍数 </label>
-                    <input 
-                        type="text" 
-                        id="heartrate" 
-                        name="heartrate"
-                        value={formik.values.heartrate}
-                        onChange={formik.handleChange}
-                        placeholder="XX"
-                    />
-                </div>             
-                {formik.errors.heartrate && (
-                    <p className="errorMsg">{formik.errors.heartrate}</p>
-                )}
-                <label className="heart-info"> 
-                    あなたの<br/>目標心拍数 
-                    <HeartRate/>
-                </label>
+                    <div className="msg-area">
+                        <input
+                            type="text"
+                            id="heartrate"
+                            name="heartrate"
+                            value={formik.values.heartrate}
+                            onChange={formik.handleChange}
+                            placeholder="XX"
+                        />
+                        {formik.errors.heartrate && (
+                            <span className="error-msg">
+                                {formik.errors.heartrate}
+                            </span>
+                        )}
+                    </div>
+                </div>
 
-                <label className="heart-info">
-                     目標達成
-                     <div>
-                        {formik.values.heartrate === <heartRate/>}
-                     </div>
-                </label>
-                <button className="btn-submit" type="submit">運動完了</button>
+                <div className="heart-info">
+                    <div className="heart-rate-standard">
+                        あなたの
+                        <br />
+                        目標心拍数
+                        <br />
+                        {user.stock}
+                    </div>
+
+                    <div className="heart-rate-level">
+                        目標達成
+                        <span className='heart-rate-icon'>{isShowSubmitBtn}</span>
+                    </div>
+                </div>
+                <button
+                    className="btn-submit"
+                    type="submit"
+                    disabled={formik.errors.heartrate ? true : false}
+                >
+                    運動完了
+                </button>
             </form>
         </section>
-    );
+    )
 }
 
-export default HeartCarePage;
+export default HeartCarePage

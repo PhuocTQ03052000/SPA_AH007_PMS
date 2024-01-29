@@ -1,6 +1,5 @@
 import './App.css';
 import HeartCarePage from './pages/heart-care-page/HeartCarePage';
-import SignUpPage from './pages/sign-up-page/SignUpPage';
 
 function App() {
   return (

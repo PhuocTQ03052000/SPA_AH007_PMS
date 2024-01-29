@@ -20,7 +20,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "dev": "concurrently \"npm start\" \"json-server --watch G:/PMS/Source_FE/SPA_AH007_PMS/server/heartrate.json --port 8005\""
+    "dev": "concurrently \"npm start\" \"json-server --watch D:/PMS_BB_Training/PMS/validate-form/server/heartrate.json --port 8005\""
   },
   "eslintConfig": {
     "extends": [
